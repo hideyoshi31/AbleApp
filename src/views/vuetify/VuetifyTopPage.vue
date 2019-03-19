@@ -56,7 +56,7 @@
       <v-footer
         color='gray'
         app>
-        <span>&copy; {{ footerTitle }}</span>
+        <span class="footer-copy">&copy; {{ footerTitle }}</span>
       </v-footer>
       <!-- ここまで -->
     </v-app>
@@ -104,4 +104,8 @@ export default class VuetifyTopPage extends Vue {
 .container
   text-align left
 
+.footer-copy
+  display: block;
+  width: 100%;
+  margin: 0 auto;
 </style>

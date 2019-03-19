@@ -3,7 +3,7 @@
     <v-flex class="container__body">
        <v-card height="600px" flat>
         <template>
-          <div class="headline text-xs-center navi-container">
+          <div class="headline text-xs-center navi-container paddingTop15px">
             {{ title }}
             <v-flex style="margin: 16px;">
               <!--  bottomNavigationTab1のフォームを表示 -->
@@ -89,6 +89,7 @@ export default class Post extends Vue {
 .container
   text-align left 
   margin 0 auto
+  background #ffffff
   width 100%
   &__body
     margin-top 24px
@@ -96,16 +97,19 @@ export default class Post extends Vue {
 .navi-container
   margin-top 60px
 select
-  width: 100%;
-  margin-top: 10px;
-  border: 1px solid rgba(60,60,60,0.26) !important;
-  border-radius: 5px;
-  padding: 5px !important;
+  width: 100%
+  margin-top 10px
+  border 1px solid rgba(60,60,60,0.26) !important
+  border-radius 5px
+  padding 5px !important
 textarea
-  width: 100%;
-  height: 200px;
-  margin-top: 10px;
-  border: 1px solid rgba(60,60,60,.26) !important;
-  border-radius: 5px;
-  padding: 5px !important;
+  width 100%
+  height 200px
+  margin-top 10px
+  border 1px solid rgba(60,60,60,.26) !important
+  border-radius 5px
+  padding 5px !important
+
+.paddingTop5px
+  padding-top 15px
 </style>
