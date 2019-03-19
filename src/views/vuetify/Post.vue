@@ -1,5 +1,5 @@
 <template>
-  <div class="container bgWhite">
+  <div class="container">
     <v-flex class="container__body">
        <v-card height="600px" flat>
         <template>
@@ -92,9 +92,6 @@ export default class Post extends Vue {
   width 100%
   &__body
     margin-top 24px
-
-.bgWhite
-  background #ffffff
 
 .navi-container
   margin-top 60px

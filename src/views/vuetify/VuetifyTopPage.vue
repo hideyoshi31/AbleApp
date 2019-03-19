@@ -46,7 +46,7 @@
       </v-toolbar>
       <!-- ここまで -->
       <!-- メインページ -->
-      <v-container>
+      <v-container class="bgWhite">
         <v-fade-transition mode="out-in">
           <router-view/>
         </v-fade-transition>
@@ -110,6 +110,9 @@ export default class VuetifyTopPage extends Vue {
 
 .container
   text-align left
+
+.bgWhite
+  background #ffffff
 
 .footer-copy
   display: block;
