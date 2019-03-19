@@ -73,6 +73,7 @@ export default class VuetifyTopPage extends Vue {
   footerTitle: string = 'AbleApp'
   isDrawer: boolean = false
   menuList: any[] = [
+    /*
     {
       to: 'vuetify_child_page_1',
       label: 'v-card',
@@ -86,6 +87,12 @@ export default class VuetifyTopPage extends Vue {
     {
       to: 'vuetify_child_page_3',
       label: 'v-bottom-nav',
+      icon: 'gavel',
+    },
+    */
+    {
+      to: 'post',
+      label: '投稿',
       icon: 'gavel',
     },
   ]
