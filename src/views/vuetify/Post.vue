@@ -60,28 +60,28 @@ export default class Post extends Vue {
 
   postData: any = {
     message: '',
-    category: '▼選択してください'
+    category: '▼選択してください',
   }
 
-   async sendItem(){
-     const now = new Date()
-     const colref = firebase.firestore().collection("formcontent"); // "formcontent"という名前のコレクションへの参照を作成
-     // 保存用JSONデータを作成
-     const saveData: any = {
-        category: this.postData.category,
-        message: this.postData.message,
-        createdAt: now
-     };
+  async sendItem() {
+    const now = new Date()
+    const colref = firebase.firestore().collection('postData');
+    // 保存用JSONデータを作成
+    const saveData: any = {
+      category: this.postData.category,
+      message: this.postData.message,
+      createdAt: now,
+    };
 
     // addの引数に保存したいデータを渡す
     try {
       const result = await colref.add(saveData)
-      this.snackbarText = "メッセージを送信しました"
+      this.snackbarText = 'メッセージを送信しました'
     } catch (error) {
       this.snackbarText = 'メッセージを送信できませんでした' + error.message
     }
     this.isSnackbar = true
-   }
+  }
 }
 
 </script>
