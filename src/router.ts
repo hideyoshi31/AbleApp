@@ -10,6 +10,8 @@ import VuetifyTopPage from '@/views/vuetify/VuetifyTopPage.vue'
 import VuetifyChildPage1 from '@/views/vuetify/VuetifyChildPage1.vue'
 import VuetifyChildPage2 from '@/views/vuetify/VuetifyChildPage2.vue'
 import VuetifyChildPage3 from '@/views/vuetify/VuetifyChildPage3.vue'
+import EmailAuthPage from '@/views/EmailAuthPage.vue'
+import SignInFinishPage from '@/views/SignInFinishPage.vue'
 import Post from '@/views/vuetify/Post.vue'
 import LocalForageRosterListPage from '@/views/localforage/LocalForageRosterListPage.vue'
 import AxiosLesson from '@/views/axios/AxiosLesson.vue'
@@ -28,6 +30,21 @@ export default new Router({
     {
       path: '/',
       component: TopPage,
+    },
+    /**
+     * SignInページ
+     */
+    {
+      path: '/email_auth_page',
+      component: EmailAuthPage,
+    },
+    /**
+     * SignInFinishページ
+     */
+    {
+      path: '/sign_in_finish_page',
+      name: 'sign_in_finish_page',
+      component: SignInFinishPage,
     },
     /**
      * VueRouterトレーニング用ページ
