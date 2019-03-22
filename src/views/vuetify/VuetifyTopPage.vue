@@ -8,7 +8,7 @@
         app
         dark
         v-model="isDrawer"
-        class="blue lighten-3">
+        class="red lighten-3">
         <v-container
           fluid
           style="min-height: 0;"
@@ -36,7 +36,7 @@
       <!-- ツールバー https://vuetifyjs.com/en/components/toolbars#toolbar -->
       <v-toolbar
         dark
-        color="blue"
+        color="red"
         fixed
         clipped-left
         app>

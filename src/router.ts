@@ -12,7 +12,9 @@ import VuetifyChildPage2 from '@/views/vuetify/VuetifyChildPage2.vue'
 import VuetifyChildPage3 from '@/views/vuetify/VuetifyChildPage3.vue'
 import EmailAuthPage from '@/views/EmailAuthPage.vue'
 import SignInFinishPage from '@/views/SignInFinishPage.vue'
-import Post from '@/views/vuetify/Post.vue'
+import Home from '@/views/Home.vue'
+import Post from '@/views/Post.vue'
+import Profile from '@/views/Profile.vue'
 import LocalForageRosterListPage from '@/views/localforage/LocalForageRosterListPage.vue'
 import AxiosLesson from '@/views/axios/AxiosLesson.vue'
 import DotenvLesson from '@/views/dotenv/DotenvLesson.vue'
@@ -30,6 +32,23 @@ export default new Router({
     {
       path: '/',
       component: TopPage,
+      children: [
+        {
+          path: '/',
+          name: 'home',
+          component: Home,
+        },
+        {
+          path: '/post',
+          name: 'post',
+          component: Post,
+        },
+        {
+          path: '/profile',
+          name: 'profile',
+          component: Profile,
+        },
+      ],
     },
     /**
      * SignInページ
@@ -45,42 +64,6 @@ export default new Router({
       path: '/sign_in_finish_page',
       name: 'sign_in_finish_page',
       component: SignInFinishPage,
-    },
-    /**
-     * VueRouterトレーニング用ページ
-     * VueRouterTopPage.vueをrouter-viewでエントリーポイントのページとして設定し、
-     * その配下にそれぞれのページを設定する。
-     * childrenに設定されたページのURLは http:localhost:8080/vue_router_top_page/ から始まる。
-     */
-    {
-      path: '/vue_router_top_page',
-      name: 'vue_router_top_page',
-      component: VueRouterTopPage,
-      children: [
-        {
-          path: '/',
-          name: 'vue_router_agenda_page',
-          component: VueRouterAgendaPage,
-        },
-        {
-          path: 'vue_router_first_page',
-          name: 'vue_router_first_page',
-          component: VueRouterFirstPage,
-        },
-        /**
-         * pathに:idを指定するとURLにidが表示される。
-         */
-        {
-          path: 'vue_router_second_page/:id',
-          name: 'vue_router_second_page',
-          component: VueRouterSecondPage,
-        },
-      ],
-    },
-    {
-      path: '/vue_store_top_page',
-      name: 'vue_store_top_page',
-      component: VueStoreTopPage,
     },
     {
       path: '/vuetify_top_page',
@@ -102,31 +85,8 @@ export default new Router({
           name: 'vuetify_child_page_3',
           component: VuetifyChildPage3,
         },
-        {
-          path: 'post',
-          name: 'post',
-          component: Post,
-        },
       ],
     },
-    {
-      path: '/local_forage_roster_list_page',
-      name: 'local_forage_roster_list_page',
-      component: LocalForageRosterListPage,
-    },
-    {
-      path: '/axios_lesson',
-      name: 'axios_lesson',
-      component: AxiosLesson,
-    },
-    {
-      path: '/dotenv_lesson',
-      name: 'dotenv_lesson',
-      component: DotenvLesson,
-    },
-    /**
-     * NotFoundページ
-     */
     {
       path: 'not_found_page',
       name: 'not_found_page',

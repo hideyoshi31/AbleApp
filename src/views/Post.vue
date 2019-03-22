@@ -7,23 +7,21 @@
             {{ title }}
             <v-flex style="margin: 16px;">
               <!--  bottomNavigationTab1のフォームを表示 -->
-              <select v-model="postData.category">
-                <option selected disabled>▼選択してください</option>
-                <option>施術について</option>
-                <option>集客について</option>
-                <option>従業員について</option>
-                <option>その他</option>
-              </select>
-              <textarea
+              <v-combobox
+                style="margin-top: 10px;"
+                v-model="postData.select"
+                :items="postData.items"
+                label = "カテゴリを選択してください"
+                ></v-combobox>
+              <v-textarea
                v-model="postData.message"
                 label="メッセージ"
-                outline
-                placeholder="メッセージを送信してください">
-              </textarea><br>
+                >
+              </v-textarea><br>
               <v-btn
                 color="blue"
                 class="white--text"
-                @click="sendItem">
+                @click="onClick">
                 送信
               </v-btn>
             </v-flex>
@@ -42,6 +40,33 @@
         </v-snackbar>
       </v-card>
     </v-flex>
+    <v-dialog
+      v-model="isDialog"
+      width="500">
+      <v-card>
+        <v-card-title>
+          投稿確認
+        </v-card-title>
+        <v-card-text>
+          投稿してもよいですか？
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn
+            color="primary"
+            flat
+            @click="onDialogAction(0)">
+            はい
+          </v-btn>
+          <v-btn
+            color="primary"
+            flat
+            @click="onDialogAction(1)">
+            いいえ
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -55,12 +80,30 @@ Vue.component('v-select', vSelect)
 export default class Post extends Vue {
   title: string = 'Able Post Sample'
   isSnackbar: boolean = false
+  isDialog: boolean = false
   timeout: number = 5000
   snackbarText: string =  ''
 
   postData: any = {
     message: '',
-    category: '▼選択してください',
+    select: '選択してください',
+    items: [
+        '施術について',
+        '集客について',
+        '人材育成について',
+        'その他',
+      ],
+  }
+
+  onClick() {
+    this.isDialog = true
+  }
+
+  onDialogAction(selectedId: number) {
+    this.isDialog = false
+    if (selectedId === 0) {
+      this.sendItem()
+    }
   }
 
   async sendItem() {
@@ -68,7 +111,7 @@ export default class Post extends Vue {
     const colref = firebase.firestore().collection('postData');
     // 保存用JSONデータを作成
     const saveData: any = {
-      category: this.postData.category,
+      category: this.postData.select,
       message: this.postData.message,
       createdAt: now,
     };
@@ -95,19 +138,6 @@ export default class Post extends Vue {
 
 .navi-container
   margin-top 60px
-select
-  width: 100%
-  margin-top 10px
-  border 1px solid rgba(60,60,60,0.26) !important
-  border-radius 5px
-  padding 5px !important
-textarea
-  width 100%
-  height 200px
-  margin-top 10px
-  border 1px solid rgba(60,60,60,.26) !important
-  border-radius 5px
-  padding 5px !important
 
 .paddingTop5px
   padding-top 15px
