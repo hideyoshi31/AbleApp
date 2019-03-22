@@ -14,7 +14,7 @@ import EmailAuthPage from '@/views/EmailAuthPage.vue'
 import SignInFinishPage from '@/views/SignInFinishPage.vue'
 import Home from '@/views/Home.vue'
 import Post from '@/views/Post.vue'
-import Profile from '@/views/Profile.vue'
+import Account from '@/views/Account.vue'
 import LocalForageRosterListPage from '@/views/localforage/LocalForageRosterListPage.vue'
 import AxiosLesson from '@/views/axios/AxiosLesson.vue'
 import DotenvLesson from '@/views/dotenv/DotenvLesson.vue'
@@ -44,9 +44,9 @@ export default new Router({
           component: Post,
         },
         {
-          path: '/profile',
-          name: 'profile',
-          component: Profile,
+          path: '/account',
+          name: 'account',
+          component: Account,
         },
       ],
     },
@@ -55,6 +55,7 @@ export default new Router({
      */
     {
       path: '/email_auth_page',
+      name: 'email_auth_page',
       component: EmailAuthPage,
     },
     /**

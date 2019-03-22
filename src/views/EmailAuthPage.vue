@@ -179,7 +179,7 @@ export default class EmailAuthPage extends Vue {
             if (user !== null) {
                 console.log('user', user.uid)
             }
-            this.$router.push({ name: 'sign_in_finish_page' })
+            this.$router.push({ name: 'home' })
         } catch (error) {
             console.error('firebase error', error)
             this.loginResultMessage = error.message

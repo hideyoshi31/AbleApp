@@ -96,7 +96,7 @@ export default class TopPage extends Vue {
       icon: 'gavel',
     },
     {
-      to: 'profile',
+      to: 'account',
       label: 'アカウント',
       icon: 'account_box',
     },
