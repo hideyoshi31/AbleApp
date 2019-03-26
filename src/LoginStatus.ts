@@ -9,7 +9,6 @@ export default class LoginStatus extends Vue {
         firebase.auth().onAuthStateChanged( (user) => {
         if (user) {
             // User is signed in.
-            console.log('bbb')
             store.commit('setUid', user.uid)
         } else {
             // No user is signed in.

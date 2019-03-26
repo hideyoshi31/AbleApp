@@ -48,11 +48,11 @@ export default new Router({
           name: 'account',
           component: Account,
         },
-        {
-          path: '/vue_store_top_page',
-          name: 'vue_store_top_page',
-          component: VueStoreTopPage,
-        },
+        // {
+        //   path: '/vue_store_top_page',
+        //   name: 'vue_store_top_page',
+        //   component: VueStoreTopPage,
+        // },
       ],
     },
     /**
