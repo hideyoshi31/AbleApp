@@ -219,7 +219,7 @@ export default class Account extends Vue {
     }
   }
 
-  created() {
+  mounted() {
     this.getUserData(this.uid)
   }
 

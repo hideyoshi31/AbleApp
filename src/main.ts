@@ -6,6 +6,7 @@ import Vuetify from 'vuetify'
 import colors from 'vuetify/es5/util/colors'
 import 'vuetify/dist/vuetify.min.css'
 import LoginStatus from './LoginStatus'
+import './registerServiceWorker'
 
 const loginStatus = new LoginStatus()
 loginStatus.setUid()
