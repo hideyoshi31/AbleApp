@@ -173,6 +173,7 @@ export default class EmailAuthPage extends Vue {
     async login() {
         try {
             this.loginResultMessage = ''
+            await firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL)
             const result = await firebase.auth().signInWithEmailAndPassword(this.loginEmail, this.loginPassword)
             console.log(result)
             const user = firebase.auth().currentUser

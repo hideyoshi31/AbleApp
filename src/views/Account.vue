@@ -55,7 +55,6 @@
             サインアウト
           </v-btn>
         </template>
-        <!-- https://vuetifyjs.com/en/components/snackbars -->
         <v-snackbar
           v-model="isSnackbar"
           color="blue"
@@ -140,7 +139,7 @@ export default class Account extends Vue {
   isSignOutDialog: boolean = false
   timeout: number = 5000
   snackbarText: string =  ''
-  uid: string = ''
+  uid: string = this.$store.getters.uid
 
   user: any = {
     name: '',
@@ -183,15 +182,16 @@ export default class Account extends Vue {
 
   async getUserData(uid: string) {
     try {
-      const db = firebase.firestore();
-      const docRef = db.collection('users').doc(uid);
-      const datas = await docRef.get()
-      this.user.name = (datas.data() as any).name
-      this.user.email = (datas.data() as any).email
-      this.user.company = (datas.data() as any).company
-      this.user.url = (datas.data() as any).url
-      this.user.tel = (datas.data() as any).tel
-      this.user.address = (datas.data() as any).address
+      const userModel = new UserModel()
+      const data = await userModel.get(uid)
+      if (data !== undefined) {
+        this.user.name = data.name
+        this.user.email = data.email
+        this.user.company = data.company
+        this.user.url = data.url
+        this.user.tel = data.tel
+        this.user.address = data.address
+      }
     } catch (error) {
       console.error('firebase error: ', error.message);
     }
@@ -219,13 +219,8 @@ export default class Account extends Vue {
     }
   }
 
-  mounted() {
-    const userModel = new UserModel()
-    userModel.get((data) => {
-      this.uid = userModel.uid
-      console.log(data)
-      this.getUserData(this.uid)
-    })
+  created() {
+    this.getUserData(this.uid)
   }
 
   signOut() {

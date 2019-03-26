@@ -5,6 +5,10 @@ import store from './store'
 import Vuetify from 'vuetify'
 import colors from 'vuetify/es5/util/colors'
 import 'vuetify/dist/vuetify.min.css'
+import LoginStatus from './LoginStatus'
+
+const loginStatus = new LoginStatus()
+loginStatus.setUid()
 
 // themeはお好みでどうぞ。
 /**

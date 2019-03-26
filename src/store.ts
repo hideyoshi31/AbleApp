@@ -15,6 +15,7 @@ export default new Vuex.Store({
     isLoading: false,
     successMessages: [] as string[],
     errorMessages: [] as string[],
+    uid: '',
   },
   /**
    * getters内でstateのデータを取得できるようにする。
@@ -24,6 +25,7 @@ export default new Vuex.Store({
     isLoading: (state) => state.isLoading,
     successMessages: (state) => state.successMessages,
     errorMessages: (state) => state.errorMessages,
+    uid: (state) => state.uid,
   },
   /**
    * mutationsで実行処理を行う。データの変更を行う。
@@ -38,6 +40,9 @@ export default new Vuex.Store({
     },
     stopLoading(state) {
       state.isLoading = false
+    },
+    setUid(state, uid) {
+      state.uid = uid
     },
     success(state, message) {
       if (!Array.isArray(message)) {

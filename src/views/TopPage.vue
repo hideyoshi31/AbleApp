@@ -100,6 +100,11 @@ export default class TopPage extends Vue {
       label: 'アカウント',
       icon: 'account_box',
     },
+    {
+      to: 'vue_store_top_page',
+      label: 'STORE',
+      icon: 'account_box',
+    },
   ]
   mounted() {
     console.log('TopPage')
