@@ -1,7 +1,7 @@
 <template>
   <div class="container">
     <v-flex class="container__body">
-       <v-card height="600px" flat>
+      <v-card height="600px" flat>
         <template>
           <div class="headline text-xs-center navi-container">
             {{ title }}
@@ -140,6 +140,7 @@ export default class Account extends Vue {
   timeout: number = 5000
   snackbarText: string =  ''
   uid: string = this.$store.getters.uid
+  userModel = new UserModel()
 
   user: any = {
     name: '',
@@ -163,27 +164,29 @@ export default class Account extends Vue {
   async saveUserData() {
     try {
       console.log(this.uid)
-      const db = firebase.firestore();
-      const docRef = db.collection('users').doc(this.uid).set({
-        name: this.user.name,
-        email: this.user.email,
-        company: this.user.company,
-        url: this.user.url,
-        tel: this.user.tel,
-        address: this.user.address,
-      });
+      const set = await this.userModel.set(
+        this.uid,
+        this.user.name,
+        this.user.email,
+        this.user.company,
+        this.user.url,
+        this.user.tel,
+        this.user.address,
+      )
       this.readOnlyStatus = true
       this.editModeStatus = true
       this.saveModeStatus = false
+      this.snackbarText = '編集を保存しました'
     } catch (error) {
+      this.snackbarText = '編集を保存できませんでした' + error.message
       console.error('firebase error: ', error.message)
     }
+    this.isSnackbar = true
   }
 
   async getUserData(uid: string) {
     try {
-      const userModel = new UserModel()
-      const data = await userModel.get(uid)
+      const data = await this.userModel.get(uid)
       if (data !== undefined) {
         this.user.name = data.name
         this.user.email = data.email

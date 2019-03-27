@@ -28,4 +28,14 @@ export class UserModel {
             console.log('Nothing UserData')
         }
     }
+
+    async set(uid: string, name: string, email: string, company: string, url: string, tel: string, address: string) {
+        try {
+            const api = new ApiClient()
+            const data = await api.setUserData(uid, name, email, company, url, tel, address)
+            return data
+        } catch (error) {
+            console.log('firebase error: ', error.message)
+        }
+    }
 }

@@ -15,6 +15,7 @@ import SignInFinishPage from '@/views/SignInFinishPage.vue'
 import Home from '@/views/Home.vue'
 import Post from '@/views/Post.vue'
 import Account from '@/views/Account.vue'
+import PostHistory from '@/views/PostHistory.vue'
 import LocalForageRosterListPage from '@/views/localforage/LocalForageRosterListPage.vue'
 import AxiosLesson from '@/views/axios/AxiosLesson.vue'
 import DotenvLesson from '@/views/dotenv/DotenvLesson.vue'
@@ -47,6 +48,11 @@ export default new Router({
           path: '/account',
           name: 'account',
           component: Account,
+        },
+        {
+          path: '/postHistory',
+          name: 'postHistory',
+          component: PostHistory,
         },
         // {
         //   path: '/vue_store_top_page',

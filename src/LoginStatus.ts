@@ -5,7 +5,8 @@ import store from '@/store'
 import router from '@/router'
 
 export default class LoginStatus extends Vue {
-    setUid() {
+    async setUid() {
+        await firebase.firestore().enablePersistence()
         firebase.auth().onAuthStateChanged( (user) => {
         if (user) {
             // User is signed in.

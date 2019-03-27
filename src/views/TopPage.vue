@@ -8,7 +8,7 @@
         app
         dark
         v-model="isDrawer"
-        class="red lighten-3">
+        class="cyan lighten-3">
         <v-container
           fluid
           style="min-height: 0;"
@@ -36,7 +36,7 @@
       <!-- ツールバー https://vuetifyjs.com/en/components/toolbars#toolbar -->
       <v-toolbar
         dark
-        color="red"
+        color="cyan"
         fixed
         clipped-left
         app>
@@ -99,6 +99,11 @@ export default class TopPage extends Vue {
       to: 'account',
       label: 'アカウント',
       icon: 'account_box',
+    },
+    {
+      to: 'postHistory',
+      label: '投稿履歴',
+      icon: 'folder_open',
     },
     // {
     //   to: 'vue_store_top_page',

@@ -7,5 +7,8 @@ service cloud.firestore {
       match /postData/{document=**} {
         allow read, write: if true;
       }
+      match /version/{document=**} {
+        allow read, write: if true;
+      }
   }
 }
