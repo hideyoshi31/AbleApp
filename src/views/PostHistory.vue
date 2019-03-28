@@ -7,7 +7,7 @@
         <v-list two-line>
           <template v-for="(item, index) in items">
             <v-list-tile
-              :key="item.category"
+              :key="item.id"
               avatar
               ripple
               @click="edit(item.id)"
@@ -80,9 +80,11 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import firebase,{ storage } from 'firebase/app'
+import firebase, { storage } from 'firebase/app'
 import { format } from 'date-fns'
-import { ApiClient } from '@/ApiClient';
+import { ApiClient } from '@/ApiClient'
+import App from '@/App.vue'
+
 @Component({
   name: 'PostHistory',
   filters: {
@@ -93,8 +95,9 @@ import { ApiClient } from '@/ApiClient';
 })
 export default class PostHistory extends Vue {
   isDialog = false
+  items: any[] = []
   title: string = 'PostHistory'
-  uid: string = this.$store.getters.uid
+  uid: string =  ''
   isSnackbar: boolean = false
   snackbarText: string = ''
   timeout: number = 5000
@@ -106,7 +109,7 @@ export default class PostHistory extends Vue {
     this.message = ''
     this.postId = postId
     const data = await this.api.getPostData(this.uid, postId)
-    if(data != undefined){
+    if ( data !== undefined ) {
       this.message = data.message
     }
     this.isDialog = true
@@ -115,17 +118,12 @@ export default class PostHistory extends Vue {
   onDialogAction(selectedId: number) {
     this.isDialog = false
     if (selectedId === 0) {
-      this.api.updatePostData(this.uid, this.postId,this.message)
+      this.api.updatePostData(this.uid, this.postId, this.message)
       this.snackbarText = '編集を保存しました'
       this.isSnackbar = true
       this.getItems()
     }
   }
-
-  /**
-   * 登録一覧
-   */
-  items: any[] = []
 
   mounted() {
     this.getItems()
@@ -148,11 +146,11 @@ export default class PostHistory extends Vue {
       this.items = []
       const db: firebase.firestore.Firestore = firebase.firestore()
       const items: firebase.firestore.QuerySnapshot = await db.collection(`postData/${this.uid}/posts`).get()
-      console.log('ittte',items)
+      console.log('ittte', items)
       items.docs.forEach((item: firebase.firestore.QueryDocumentSnapshot) => {
         if (item.exists) {
           const data = item.data()
-          data['id'] = item.id
+          data.id = item.id
           console.log('data', data)
           this.items.push(data)
         }
@@ -163,28 +161,27 @@ export default class PostHistory extends Vue {
     }
   }
 
-  sort(){
-    console.log('aaaaaaaa',this.items.length)
-    this.items.sort(function(a,b){
-      console.log('a.createdAt.seconds',a.createdAt.seconds)
-      if(a.createdAt.seconds<b.createdAt.seconds) return -1
-      if(a.createdAt.seconds > b.createdAt.seconds) return 1
+  sort() {
+    console.log('aaaaaaaa', this.items.length)
+    this.items.sort((a, b) => {
+      console.log('a.createdAt.seconds', a.createdAt.seconds)
+      if ( a.createdAt.seconds < b.createdAt.seconds ) { return -1 }
+      if ( a.createdAt.seconds > b.createdAt.seconds ) { return 1 }
       return 0
     })
-    console.log('sorted',this.items)
+    console.log('sorted', this.items)
   }
 
-  get_date(_timestamp: number){
-    var _d = _timestamp?new Date(_timestamp * 1000):new Date();
-    
-    var Y = _d.getFullYear();
-    var m = ("0" + (_d.getMonth() + 1)).slice(-2);
-    var d = ("0" + _d.getDate()).slice(-2);
-    var H = ("0" + _d.getHours()).slice(-2);
-    var i = ("0" + _d.getMinutes()).slice(-2);
-    var s = ("0" + _d.getSeconds()).slice(-2);
+  get_date(timestamp: number) {
+    const D = timestamp ? new Date(timestamp * 1000) : new Date();
+    const Y = D.getFullYear()
+    const m = ('0' + (D.getMonth() + 1)).slice(-2)
+    const d = ('0' + D.getDate()).slice(-2)
+    const H = ('0' + D.getHours()).slice(-2)
+    const i = ('0' + D.getMinutes()).slice(-2)
+    const s = ('0' + D.getSeconds()).slice(-2)
 
-    return `${Y}/${m}/${d} ${H}:${i}:${s}`;
+    return `${Y}/${m}/${d} ${H}:${i}:${s}`
   }
 
 }

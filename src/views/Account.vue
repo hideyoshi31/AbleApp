@@ -130,6 +130,8 @@ import { Component, Vue } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { UserModel } from '../UserModel'
+import LoginStatus from '@/LoginStatus';
+import App from '@/App.vue'
 
 @Component
 export default class Account extends Vue {
@@ -139,7 +141,7 @@ export default class Account extends Vue {
   isSignOutDialog: boolean = false
   timeout: number = 5000
   snackbarText: string =  ''
-  uid: string = this.$store.getters.uid
+  uid: string = new App().loginStatus.uid
   userModel = new UserModel()
 
   user: any = {
@@ -223,6 +225,7 @@ export default class Account extends Vue {
   }
 
   mounted() {
+    console.log('uuu', this.uid)
     this.getUserData(this.uid)
   }
 

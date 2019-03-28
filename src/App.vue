@@ -3,7 +3,20 @@
     <router-view/>
   </div>
 </template>
-
+<script lang="ts">
+import { Vue } from 'vue-property-decorator'
+import LoginStatus from './LoginStatus'
+import PostHistory from './views/PostHistory.vue'
+export default class App extends Vue {
+  loginStatus = new LoginStatus()
+  uid: string = ''
+  mounted () {
+    this.loginStatus.setUid()
+    this.uid = this.loginStatus.uid
+    console.log(this.uid)
+  }
+}
+</script>
 <style lang="stylus">
 #app
   font-family 'Avenir', Helvetica, Arial, sans-serif
