@@ -65,6 +65,8 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
+import firebase from 'firebase/app'
+import 'firebase/auth'
 
 @Component
 export default class TopPage extends Vue {
@@ -113,9 +115,30 @@ export default class TopPage extends Vue {
   ]
   mounted() {
     console.log('TopPage')
+    this.fetchAuthState()
   }
   onClickNavigationItem(menu: any) {
     this.$router.push({name: menu.to})
+  }
+
+  fetchAuthState() {
+    console.log('fetchAuthState')
+    firebase.auth().onAuthStateChanged( (user) => {
+      let uid: string = ''
+      if (user) {
+        // User is signed in.
+        uid = user.uid
+      } else {
+        // No user is signed in.
+        uid = ''
+        this.$router.push({ name: 'email_auth_page' });
+      }
+      /**
+       * ここでthis.uidをstoreへ保存
+       */
+      this.$store.commit('setUid', uid)
+      console.log('fetchAuthState', uid)
+    })
   }
 }
 </script>

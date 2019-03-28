@@ -13,7 +13,7 @@
               @click="edit(item.id)"
             >
               <v-list-tile-content>
-                <v-list-tile-title>{{ get_date(item.createdAt.seconds) }}</v-list-tile-title>
+                <v-list-tile-title>{{ get_date(item.createdAt) }}</v-list-tile-title>
                 <v-list-tile-sub-title class="text--primary">{{ item.message }}</v-list-tile-sub-title>
               </v-list-tile-content>
 
@@ -97,7 +97,7 @@ export default class PostHistory extends Vue {
   isDialog = false
   items: any[] = []
   title: string = 'PostHistory'
-  uid: string =  ''
+  uid: string =  this.$store.getters.uid
   isSnackbar: boolean = false
   snackbarText: string = ''
   timeout: number = 5000
@@ -127,7 +127,6 @@ export default class PostHistory extends Vue {
 
   mounted() {
     this.getItems()
-    this.sort()
   }
 
   /**
@@ -146,30 +145,24 @@ export default class PostHistory extends Vue {
       this.items = []
       const db: firebase.firestore.Firestore = firebase.firestore()
       const items: firebase.firestore.QuerySnapshot = await db.collection(`postData/${this.uid}/posts`).get()
-      console.log('ittte', items)
       items.docs.forEach((item: firebase.firestore.QueryDocumentSnapshot) => {
         if (item.exists) {
-          const data = item.data()
+          const data: any = {}
+          data.category = item.data().category
+          data.createdAt = item.data().createdAt.seconds
+          data.message = item.data().message
           data.id = item.id
-          console.log('data', data)
           this.items.push(data)
         }
       })
-      console.log('before sorted', this.items)
+      this.items.sort(function(a: any,b: any){
+      if(a.createdAt > b.createdAt) return -1
+      if(a.createdAt < b.createdAt) return 1
+      return 0
+      })
     } catch (error) {
       console.error('firebase error', error)
     }
-  }
-
-  sort() {
-    console.log('aaaaaaaa', this.items.length)
-    this.items.sort((a, b) => {
-      console.log('a.createdAt.seconds', a.createdAt.seconds)
-      if ( a.createdAt.seconds < b.createdAt.seconds ) { return -1 }
-      if ( a.createdAt.seconds > b.createdAt.seconds ) { return 1 }
-      return 0
-    })
-    console.log('sorted', this.items)
   }
 
   get_date(timestamp: number) {

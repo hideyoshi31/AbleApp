@@ -120,7 +120,7 @@ export default class Post extends Vue {
 
     // addの引数に保存したいデータを渡す
     try {
-      const uid = new App().loginStatus.uid
+      const uid = this.$store.getters.uid
       const result = await colref.doc(uid).collection('posts').add(saveData)
       this.snackbarText = 'メッセージを送信しました'
     } catch (error) {

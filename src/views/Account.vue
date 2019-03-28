@@ -141,7 +141,8 @@ export default class Account extends Vue {
   isSignOutDialog: boolean = false
   timeout: number = 5000
   snackbarText: string =  ''
-  uid: string = new App().loginStatus.uid
+  userData = firebase.auth().currentUser
+  uid = this.$store.getters.uid
   userModel = new UserModel()
 
   user: any = {
@@ -225,7 +226,6 @@ export default class Account extends Vue {
   }
 
   mounted() {
-    console.log('uuu', this.uid)
     this.getUserData(this.uid)
   }
 
