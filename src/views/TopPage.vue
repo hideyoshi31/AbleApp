@@ -8,7 +8,7 @@
         app
         dark
         v-model="isDrawer"
-        class="cyan lighten-3">
+        class="red lighten-3">
         <v-container
           fluid
           style="min-height: 0;"
@@ -36,7 +36,7 @@
       <!-- ツールバー https://vuetifyjs.com/en/components/toolbars#toolbar -->
       <v-toolbar
         dark
-        color="cyan"
+        color="red"
         fixed
         clipped-left
         app>
@@ -72,11 +72,9 @@ import LocalForage from '../LocalForage'
 @Component
 export default class TopPage extends Vue {
   toolberTitle: string = 'AbleApp'
-
   footerTitle: string = 'AbleApp'
   isDrawer: boolean = false
   localForage = new LocalForage()
-
   menuList: any[] = [
     /*
     {
