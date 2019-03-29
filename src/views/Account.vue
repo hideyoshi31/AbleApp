@@ -143,7 +143,7 @@ export default class Account extends Vue {
   snackbarText: string =  ''
   uid = ''
   userModel = new UserModel()
-  localForage = new LocalForage
+  localForage = new LocalForage()
 
   user: any = {
     name: '',
@@ -227,7 +227,7 @@ export default class Account extends Vue {
 
   async mounted() {
     const uid = await this.localForage.readUid()
-    if (uid) this.uid = uid
+    if (uid) { this.uid = uid }
     this.getUserData(this.uid)
   }
 

@@ -75,7 +75,7 @@ export default class TopPage extends Vue {
 
   footerTitle: string = 'AbleApp'
   isDrawer: boolean = false
-  localForage = new LocalForage
+  localForage = new LocalForage()
 
   menuList: any[] = [
     /*

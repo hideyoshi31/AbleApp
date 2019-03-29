@@ -86,9 +86,9 @@ export default class Post extends Vue {
   isDialog: boolean = false
   timeout: number = 5000
   snackbarText: string =  ''
-  localForage = new LocalForage
-  uid:string = ''
-  
+  localForage = new LocalForage()
+  uid: string = ''
+
   postData: any = {
     message: '',
     select: '選択してください',
@@ -111,9 +111,9 @@ export default class Post extends Vue {
     }
   }
 
-  async mounted () {
+  async mounted() {
     const uid = await this.localForage.readUid()
-    if (uid) this.uid = uid
+    if (uid) { this.uid = uid }
   }
 
   async sendItem() {

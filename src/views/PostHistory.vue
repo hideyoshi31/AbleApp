@@ -104,7 +104,7 @@ export default class PostHistory extends Vue {
   postId: string = ''
   message: string = ''
   api = new ApiClient()
-  localForage = new LocalForage
+  localForage = new LocalForage()
   uid: string = this.$store.getters.uid
 
   async edit(postId: string) {
@@ -129,7 +129,7 @@ export default class PostHistory extends Vue {
 
   async mounted() {
     const uid = await this.localForage.readUid()
-    if (uid) this.uid = uid
+    if (uid) { this.uid = uid }
     this.getItems()
   }
 
@@ -148,7 +148,6 @@ export default class PostHistory extends Vue {
       this.items = []
       const db: firebase.firestore.Firestore = firebase.firestore()
       const items: firebase.firestore.QuerySnapshot = await db.collection(`postData/${this.uid}/posts`).get()
-      
       items.docs.forEach((item: firebase.firestore.QueryDocumentSnapshot) => {
         if (item.exists) {
           const data: any = {}
@@ -159,10 +158,10 @@ export default class PostHistory extends Vue {
           this.items.push(data)
         }
       })
-      this.items.sort(function(a: any,b: any){
-      if(a.createdAt > b.createdAt) return -1
-      if(a.createdAt < b.createdAt) return 1
-      return 0
+      this.items.sort((a: any, b: any) => {
+        if ( a.createdAt > b.createdAt ) { return -1 }
+        if ( a.createdAt < b.createdAt ) { return 1 }
+        return 0
       })
     } catch (error) {
       console.error('firebase error', error)
