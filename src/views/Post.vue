@@ -75,6 +75,7 @@ import { Component, Vue } from 'vue-property-decorator'
 import firebase from '@/firebase/firestore'
 import vSelect from 'vue-select'
 import App from '@/App.vue'
+import LocalForage from '@/LocalForage';
 
 Vue.component('v-select', vSelect)
 
@@ -85,7 +86,9 @@ export default class Post extends Vue {
   isDialog: boolean = false
   timeout: number = 5000
   snackbarText: string =  ''
-
+  localForage = new LocalForage
+  uid:string = ''
+  
   postData: any = {
     message: '',
     select: '選択してください',
@@ -108,6 +111,11 @@ export default class Post extends Vue {
     }
   }
 
+  async mounted () {
+    const uid = await this.localForage.readUid()
+    if (uid) this.uid = uid
+  }
+
   async sendItem() {
     const now = new Date()
     const colref = firebase.firestore().collection('postData');
@@ -120,8 +128,7 @@ export default class Post extends Vue {
 
     // addの引数に保存したいデータを渡す
     try {
-      const uid = this.$store.getters.uid
-      const result = await colref.doc(uid).collection('posts').add(saveData)
+      const result = await colref.doc(this.uid).collection('posts').add(saveData)
       this.snackbarText = 'メッセージを送信しました'
     } catch (error) {
       this.snackbarText = 'メッセージを送信できませんでした' + error.message

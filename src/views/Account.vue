@@ -130,8 +130,8 @@ import { Component, Vue } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import 'firebase/auth'
 import { UserModel } from '../UserModel'
-import LoginStatus from '@/LoginStatus';
 import App from '@/App.vue'
+import LocalForage from '@/LocalForage'
 
 @Component
 export default class Account extends Vue {
@@ -141,9 +141,9 @@ export default class Account extends Vue {
   isSignOutDialog: boolean = false
   timeout: number = 5000
   snackbarText: string =  ''
-  userData = firebase.auth().currentUser
-  uid = this.$store.getters.uid
+  uid = ''
   userModel = new UserModel()
+  localForage = new LocalForage
 
   user: any = {
     name: '',
@@ -225,7 +225,9 @@ export default class Account extends Vue {
     }
   }
 
-  mounted() {
+  async mounted() {
+    const uid = await this.localForage.readUid()
+    if (uid) this.uid = uid
     this.getUserData(this.uid)
   }
 

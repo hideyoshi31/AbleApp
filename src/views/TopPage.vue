@@ -67,6 +67,7 @@
 import { Component, Vue } from 'vue-property-decorator'
 import firebase from 'firebase/app'
 import 'firebase/auth'
+import LocalForage from '../LocalForage'
 
 @Component
 export default class TopPage extends Vue {
@@ -74,6 +75,8 @@ export default class TopPage extends Vue {
 
   footerTitle: string = 'AbleApp'
   isDrawer: boolean = false
+  localForage = new LocalForage
+
   menuList: any[] = [
     /*
     {
@@ -122,7 +125,6 @@ export default class TopPage extends Vue {
   }
 
   fetchAuthState() {
-    console.log('fetchAuthState')
     firebase.auth().onAuthStateChanged( (user) => {
       let uid: string = ''
       if (user) {
@@ -136,8 +138,8 @@ export default class TopPage extends Vue {
       /**
        * ここでthis.uidをstoreへ保存
        */
+      this.localForage.writeUid(uid)
       this.$store.commit('setUid', uid)
-      console.log('fetchAuthState', uid)
     })
   }
 }

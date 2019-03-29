@@ -84,6 +84,7 @@ import firebase, { storage } from 'firebase/app'
 import { format } from 'date-fns'
 import { ApiClient } from '@/ApiClient'
 import App from '@/App.vue'
+import LocalForage from '@/LocalForage';
 
 @Component({
   name: 'PostHistory',
@@ -97,13 +98,14 @@ export default class PostHistory extends Vue {
   isDialog = false
   items: any[] = []
   title: string = 'PostHistory'
-  uid: string =  this.$store.getters.uid
   isSnackbar: boolean = false
   snackbarText: string = ''
   timeout: number = 5000
   postId: string = ''
   message: string = ''
   api = new ApiClient()
+  localForage = new LocalForage
+  uid: string = this.$store.getters.uid
 
   async edit(postId: string) {
     this.message = ''
@@ -115,7 +117,7 @@ export default class PostHistory extends Vue {
     this.isDialog = true
   }
 
-  onDialogAction(selectedId: number) {
+  async onDialogAction(selectedId: number) {
     this.isDialog = false
     if (selectedId === 0) {
       this.api.updatePostData(this.uid, this.postId, this.message)
@@ -125,7 +127,9 @@ export default class PostHistory extends Vue {
     }
   }
 
-  mounted() {
+  async mounted() {
+    const uid = await this.localForage.readUid()
+    if (uid) this.uid = uid
     this.getItems()
   }
 
@@ -133,7 +137,6 @@ export default class PostHistory extends Vue {
    * 取得
    */
   async getItems() {
-    console.log('getItems')
     await this.readFirestore()
   }
 
@@ -145,6 +148,7 @@ export default class PostHistory extends Vue {
       this.items = []
       const db: firebase.firestore.Firestore = firebase.firestore()
       const items: firebase.firestore.QuerySnapshot = await db.collection(`postData/${this.uid}/posts`).get()
+      
       items.docs.forEach((item: firebase.firestore.QueryDocumentSnapshot) => {
         if (item.exists) {
           const data: any = {}
