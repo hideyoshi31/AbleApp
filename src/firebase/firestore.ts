@@ -1,4 +1,5 @@
 import firebase from 'firebase'
+import axios from 'axios'
 
 const config = {
     apiKey: 'AIzaSyB_VccGIxfHehOZv1tJq4dk8RxkfabLuuc',
@@ -19,6 +20,11 @@ messaging.requestPermission().then(() => {
 
   // トークン取得
   messaging.getToken().then((token) => {
+      const title = 'タイトル'
+      const body = '本文'
+      axios.get(`https://asia-northeast1-ableapp-ed7f6.cloudfunctions.net/sendNotifications?token=${token}&title=${title}&body=${body}`)
+      .then(res => {console.log(res)})
+
     console.log(token)
   })
 }).catch((err) => {
