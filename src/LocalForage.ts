@@ -24,6 +24,26 @@ export default class LocalForage extends Vue {
     }
   }
 
+  /** 保存 */
+  async writeToken(token: string) {
+    try {
+      await localforage.setItem(this.localforageKey, token)
+    } catch (error) {
+      console.error('database error', error)
+    }
+  }
+
+  /** 取得 */
+  async readToken() {
+    try {
+      const result = await localforage.getItem(this.localforageKey)
+      const token = result ? result as string : ''
+      return token
+    } catch (error) {
+      console.error('database error', error)
+    }
+  }
+
    /** 削除 */
   async remove() {
     try {

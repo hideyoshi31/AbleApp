@@ -54,6 +54,12 @@
             @click="onClickSignOut">
             サインアウト
           </v-btn>
+          <v-btn
+            color="red"
+            class="white--text"
+            @click="sendNotifications">
+            プッシュ通知テスト
+          </v-btn>
         </template>
         <v-snackbar
           v-model="isSnackbar"
@@ -132,6 +138,7 @@ import 'firebase/auth'
 import { UserModel } from '../UserModel'
 import App from '@/App.vue'
 import LocalForage from '@/LocalForage'
+import sendNotifications from '@/sendNotifications'
 
 @Component
 export default class Account extends Vue {
@@ -157,6 +164,11 @@ export default class Account extends Vue {
   readOnlyStatus: boolean = true
   editModeStatus: boolean = true
   saveModeStatus: boolean = false
+
+  async sendNotifications() {
+    const sendN = new sendNotifications()
+    await sendN.push()
+  }
 
   startEditMode() {
     this.readOnlyStatus = false
