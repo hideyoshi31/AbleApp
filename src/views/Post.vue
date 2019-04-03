@@ -98,6 +98,7 @@
     </v-dialog>
     <v-dialog
       v-model="isTodayWorkFinished"
+      :persistent="true"
       width="500">
       <v-card>
         <v-card-title>
@@ -113,6 +114,12 @@
             flat
             @click="toHistory()">
             投稿履歴へ
+          </v-btn>
+          <v-btn
+            color="primary"
+            flat
+            @click="toTop()">
+            TOPページへ
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -178,6 +185,10 @@ export default class Post extends Vue {
     this.$router.push({name: 'postHistory'})
   }
 
+  toTop() {
+    this.$router.push({name: 'home'})
+  }
+
   async workCheck(selectedId: number) {
     this.todayPermissionCheck = false
     if (selectedId === 0) {
@@ -207,7 +218,7 @@ export default class Post extends Vue {
         this.todayPermissionCheck = true
       }
       this.canPost = await this.canPostCheck()
-      if ( this.canPost ){
+      if ( this.canPost ) {
         this.showFinishTextStatus = false
       } else {
         const todayPostFinisheTimeToData = await this.getTodayPostFinisheTimeToData()
@@ -224,8 +235,8 @@ export default class Post extends Vue {
       const date = new Date()
       const nowTimeStamp = Math.floor(date.getTime() / 1000)
       const canPostTimeStamp = await this.getTodayPostFinisheTime()
-      var canPost = canPostTimeStamp < nowTimeStamp
-      console.log('投稿できる？',canPost)
+      const canPost = canPostTimeStamp < nowTimeStamp
+      console.log('投稿できる？', canPost)
       return canPost
     } catch ( error ) {
       console.log('canPostCheck', error)

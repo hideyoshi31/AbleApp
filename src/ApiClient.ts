@@ -39,6 +39,31 @@ export class ApiClient {
         }
     }
 
+    async getUsers() {
+        try {
+            const db = firebase.firestore()
+            const docRef = db.collection('users')
+            const document = await docRef.get()
+            const datas: any[] = []
+            document.forEach( (doc) => {
+                const data: any = []
+                data.uid = doc.data().uid
+                data.address = doc.data().address
+                data.company = doc.data().company
+                data.createdAt = doc.data().createdAt
+                data.email = doc.data().email
+                data.name = doc.data().name
+                data.tel = doc.data().tel
+                data.updatedAt = doc.data().updatedAt
+                data.url = doc.data().url
+                datas.push(data)
+            })
+            return datas
+        } catch (error) {
+            console.log('Error getting document:', error)
+        }
+    }
+
     async setUserData(uid: string, name: string, email: string, company: string, url: string, tel: string, address: string) {
         const db = firebase.firestore();
         const updatedAt = new Date()
@@ -73,7 +98,8 @@ export class ApiClient {
     async updatePostData(uid: string, postId: string, message: string) {
         try {
             const db = firebase.firestore();
-            const result = db.collection(`users/${uid}/posts`).doc(postId).update({message})
+            const updateAt = new Date()
+            const result = db.collection(`users/${uid}/posts`).doc(postId).update({message, updateAt})
             return result
         } catch (error) {
             console.log('Error getting document:', error)
@@ -92,6 +118,7 @@ export class ApiClient {
                 message: '',
                 startedAt: today,
                 finishedAt: today,
+                updateAt: today,
                 isPosted: false,
             })
             return result
@@ -123,6 +150,29 @@ export class ApiClient {
             return resulut
         } catch (error) {
             return error
+        }
+    }
+
+    async getPosts(uid: string) {
+        try {
+            const datas: any = []
+            const db: firebase.firestore.Firestore = firebase.firestore()
+            const items: firebase.firestore.QuerySnapshot = await db.collection(`users/${uid}/posts`).get()
+            items.docs.forEach((item: firebase.firestore.QueryDocumentSnapshot) => {
+                if (item.exists) {
+                    const data: any = {}
+                    data.category = item.data().category
+                    data.finishedAt = item.data().finishedAt.seconds
+                    data.message = item.data().message
+                    data.id = item.id
+                    data.startedAt = item.data().startedAt
+                    data.updateAt = item.data().updateAt
+                    datas.push(data)
+                }
+            })
+            return datas
+        } catch (error) {
+            console.error('firebase error', error)
         }
     }
 }

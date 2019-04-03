@@ -137,34 +137,26 @@ export default class PostHistory extends Vue {
    * 取得
    */
   async getItems() {
-    await this.readFirestore()
+    await this.read()
   }
 
   /**
    * Firestoreからデータを取得
    */
-  async readFirestore() {
+  async read() {
     try {
-      this.items = []
-      const db: firebase.firestore.Firestore = firebase.firestore()
-      const items: firebase.firestore.QuerySnapshot = await db.collection(`users/${this.uid}/posts`).get()
-      items.docs.forEach((item: firebase.firestore.QueryDocumentSnapshot) => {
-        if (item.exists) {
-          const data: any = {}
-          data.category = item.data().category
-          data.finishedAt = item.data().finishedAt.seconds
-          data.message = item.data().message
-          data.id = item.id
-          this.items.push(data)
-        }
-      })
+      const result = await this.api.getPosts(this.uid)
+      if (result) {
+        this.items = result as any[]
+      }
+      console.log(this.items)
       this.items.sort((a: any, b: any) => {
         if ( a.finishedAt > b.finishedAt ) { return -1 }
         if ( a.finishedAt < b.finishedAt ) { return 1 }
         return 0
       })
     } catch (error) {
-      console.error('firebase error', error)
+      console.error('database error', error)
     }
   }
 
