@@ -4,6 +4,9 @@
         <v-card class="container">
           <v-flex>
             <h3>投稿一覧</h3>
+            <div style="margin: 8px;">
+                <p style="color: gray;">従業員名：　{{ this.userName }}</p>
+            </div>
             <v-btn
                 color="blue"
                 class="white--text right"
@@ -50,6 +53,7 @@ import { format } from 'date-fns'
 })
 export default class UsersPost extends Vue {
   apiClient = new ApiClient()
+  userName: string = ''
 
   /**
    * ローディングフラグ
@@ -122,6 +126,7 @@ export default class UsersPost extends Vue {
 
   async mounted() {
     await this.getItems()
+    await this.getUserName()
   }
 
   /**
@@ -231,6 +236,11 @@ export default class UsersPost extends Vue {
     } catch (error) {
       console.error('database error', error)
     }
+  }
+
+  async getUserName() {
+    const userData = await this.apiClient.getUserData(this.$route.params.uid)
+    this.userName = userData !== undefined ? userData.name : ''
   }
 
   /**

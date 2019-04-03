@@ -35,7 +35,7 @@ export class ApiClient {
             const doc = await docRef.get()
             return doc.exists ? doc.data() : {}
         } catch (error) {
-            console.log('Error getting document:', error)
+            return error
         }
     }
 
