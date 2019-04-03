@@ -88,13 +88,16 @@
 
 <script lang="ts">
 import { Component, Vue, Watch } from 'vue-property-decorator'
-import firebase from 'firebase/app'
+import firebase from '@/firebase/firestore'
+import 'firebase/app'
 import 'firebase/auth'
+import { ApiClient } from '@/ApiClient'
 
 @Component({
     name: 'EmailAuthPage',
 })
 export default class EmailAuthPage extends Vue {
+    apiClient = new ApiClient()
     /**
      * ローディングフラグ
      */
@@ -125,7 +128,6 @@ export default class EmailAuthPage extends Vue {
     }
 
     getItems() {
-        console.log('getItems')
         /**
          * 認証状態を監視する
          * 認証状態が変わると処理される
@@ -216,32 +218,12 @@ export default class EmailAuthPage extends Vue {
                 await user.sendEmailVerification()
                 this.signUpResultMessage = '本人確認メールを送信しました。本人確認をしてログインしてください。'
                 /** Firestoreへユーザーデータを保存 */
-                await this.createUser(user.uid)
+                await this.apiClient.createUser(user.uid)
             }
         } catch (error) {
             console.error('firebase error', error)
             this.signUpResultMessage = error.message
         }
-    }
-
-    /**
-     * ユーザーデータを作成する。
-     */
-    async createUser(userId: string) {
-    try {
-        const db: firebase.firestore.Firestore = firebase.firestore()
-        const batch: firebase.firestore.WriteBatch = db.batch()
-        const ref: firebase.firestore.DocumentReference = db.collection('users').doc(userId)
-        batch.set(ref, {
-        uid: userId,
-        createdAt: new Date(),
-        updatedAt: new Date(),
-        name: 'ゲスト',
-        }, { merge: true} )
-        await batch.commit()
-    } catch (error) {
-        console.error('firebase error', error)
-    }
     }
 
     validationSignUp(): string[] {

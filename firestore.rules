@@ -4,10 +4,11 @@ service cloud.firestore {
         allow read: if true;
         allow write: if request.auth.uid == userId;
       }
-      match /postData/{document=**} {
-        allow read, write: if true;
+      match /users/{userId}/posts/{document=**} {
+        allow read: if true;
+        allow write: if request.auth.uid == userId;
       }
-      match /version/{document=**} {
+      match /postData/{document=**} {
         allow read, write: if true;
       }
   }

@@ -57,8 +57,8 @@
           <v-btn
             color="red"
             class="white--text"
-            @click="sendNotifications">
-            プッシュ通知テスト
+            @click="sendMail">
+            メール送信テスト
           </v-btn>
         </template>
         <v-snackbar
@@ -138,7 +138,7 @@ import 'firebase/auth'
 import { UserModel } from '../UserModel'
 import App from '@/App.vue'
 import LocalForage from '@/LocalForage'
-import sendNotifications from '@/sendNotifications'
+import { ApiClient } from '@/ApiClient'
 
 @Component
 export default class Account extends Vue {
@@ -151,6 +151,7 @@ export default class Account extends Vue {
   uid = ''
   userModel = new UserModel()
   localForage = new LocalForage()
+  apiClient = new ApiClient()
 
   user: any = {
     name: '',
@@ -165,9 +166,19 @@ export default class Account extends Vue {
   editModeStatus: boolean = true
   saveModeStatus: boolean = false
 
-  async sendNotifications() {
-    const sendN = new sendNotifications()
-    await sendN.push()
+  async sendMail() {
+    try {
+      const self = this
+      const email = this.user.email
+      const subject = 'タイトルですよ'
+      const text = '本文ですよ'
+      const resulut = await this.apiClient.sendMail(email, subject, text)
+      self.isSnackbar = true
+      self.snackbarText = 'メールを送信しました'
+      console.log(resulut)
+    } catch (error) {
+      console.log(error)
+    }
   }
 
   startEditMode() {

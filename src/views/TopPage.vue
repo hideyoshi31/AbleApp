@@ -65,9 +65,10 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator'
-import firebase from 'firebase/app'
+import firebase from '@/firebase/firestore'
+import 'firebase/app'
 import 'firebase/auth'
-import LocalForage from '../LocalForage'
+import LocalForage from '@/LocalForage'
 
 @Component
 export default class TopPage extends Vue {
@@ -115,7 +116,6 @@ export default class TopPage extends Vue {
     // },
   ]
   mounted() {
-    console.log('TopPage')
     this.fetchAuthState()
   }
   onClickNavigationItem(menu: any) {

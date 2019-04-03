@@ -147,20 +147,20 @@ export default class PostHistory extends Vue {
     try {
       this.items = []
       const db: firebase.firestore.Firestore = firebase.firestore()
-      const items: firebase.firestore.QuerySnapshot = await db.collection(`postData/${this.uid}/posts`).get()
+      const items: firebase.firestore.QuerySnapshot = await db.collection(`users/${this.uid}/posts`).get()
       items.docs.forEach((item: firebase.firestore.QueryDocumentSnapshot) => {
         if (item.exists) {
           const data: any = {}
           data.category = item.data().category
-          data.createdAt = item.data().createdAt.seconds
+          data.finishedAt = item.data().finishedAt.seconds
           data.message = item.data().message
           data.id = item.id
           this.items.push(data)
         }
       })
       this.items.sort((a: any, b: any) => {
-        if ( a.createdAt > b.createdAt ) { return -1 }
-        if ( a.createdAt < b.createdAt ) { return 1 }
+        if ( a.finishedAt > b.finishedAt ) { return -1 }
+        if ( a.finishedAt < b.finishedAt ) { return 1 }
         return 0
       })
     } catch (error) {

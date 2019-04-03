@@ -1,14 +1,14 @@
 import firebase from 'firebase'
 import axios from 'axios'
 
-export default class sendNotifications {
+export default class SendNotifications {
     messaging = firebase.messaging()
-    async push(){
+    async push() {
         try {
             // 通知の受信許可
             await this.messaging.requestPermission()
             console.log('Notification permission granted.');
-            
+
             // トークン取得
             const token = await this.messaging.getToken()
             console.log('token', token)
