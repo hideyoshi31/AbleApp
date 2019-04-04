@@ -56,6 +56,7 @@ export class ApiClient {
                 data.tel = doc.data().tel
                 data.updatedAt = doc.data().updatedAt
                 data.url = doc.data().url
+                data.isAdmin = doc.data().isAdmin
                 datas.push(data)
             })
             return datas
@@ -167,6 +168,7 @@ export class ApiClient {
                     data.id = item.id
                     data.startedAt = item.data().startedAt
                     data.updateAt = item.data().updateAt
+                    data.isPosted = item.data().isPosted
                     datas.push(data)
                 }
             })

@@ -69,6 +69,7 @@ import firebase from '@/firebase/firestore'
 import 'firebase/app'
 import 'firebase/auth'
 import LocalForage from '@/LocalForage'
+import { ApiClient } from '@/ApiClient'
 
 @Component
 export default class TopPage extends Vue {
@@ -76,6 +77,7 @@ export default class TopPage extends Vue {
   footerTitle: string = 'AbleApp'
   isDrawer: boolean = false
   localForage = new LocalForage()
+  apiClient = new ApiClient()
   menuList: any[] = [
     {
       to: 'adminHome',
@@ -89,28 +91,37 @@ export default class TopPage extends Vue {
     },
   ]
   mounted() {
-    this.fetchAuthState()
+    this.fetchAdminAuthState()
   }
   onClickNavigationItem(menu: any) {
     this.$router.push({name: menu.to})
   }
 
-  fetchAuthState() {
+  async fetchAdminAuthState() {
+    const users = await this.apiClient.getUsers()
+    const adminUids: any[] = []
+    console.log(users)
+    if (users !== undefined) {
+      users.forEach( (user) => {
+        if (user.isAdmin) { adminUids.push(user.uid) }
+      })
+    }
     firebase.auth().onAuthStateChanged( (user) => {
-      let uid: string = ''
+      let isAdmin: boolean = false
       if (user) {
         // User is signed in.
-        uid = user.uid
+        adminUids.forEach( (adminUid) => {
+          if (user.uid === adminUid) {
+            isAdmin = true
+            console.log('Admin')
+          } else {
+            console.log('Not Admin')
+          }
+          if (isAdmin === false) { this.$router.push({ name: 'home' }) }
+        })
       } else {
-        // No user is signed in.
-        uid = ''
-        this.$router.push({ name: 'email_auth_page' });
+        this.$router.push({ name: 'email_auth_page' })
       }
-      /**
-       * ここでthis.uidをstoreへ保存
-       */
-      this.localForage.writeUid(uid)
-      this.$store.commit('setUid', uid)
     })
   }
 }

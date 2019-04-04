@@ -27,6 +27,7 @@
                     <td>{{ props.item.category }}</td>
                     <td>{{ props.item.message }}</td>
                     <td>{{ get_date(props.item.finishedAt.seconds) }}</td>
+                    <td>{{ props.item.isPosted ? '投稿済': '未投稿' }}</td>
                   </tr>
                 </template>
               </v-data-table>
@@ -54,6 +55,7 @@ import { format } from 'date-fns'
 export default class UsersPost extends Vue {
   apiClient = new ApiClient()
   userName: string = ''
+  isPostedMessage: string = ''
 
   /**
    * ローディングフラグ
@@ -84,6 +86,7 @@ export default class UsersPost extends Vue {
     { text: 'カテゴリー', value: 'category' },
     { text: '投稿内容', value: 'message' },
     { text: '投稿日時', value: 'finishedAt' },
+    { text: '投稿状態', value: 'isPosted' },
   ]
 
   /**

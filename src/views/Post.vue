@@ -71,6 +71,7 @@
     </v-dialog>
     <v-dialog
       v-model="todayPermissionCheck"
+      :persistent="true"
       width="500">
       <v-card>
         <v-card-title>
